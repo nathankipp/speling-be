@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/speling-be/static/css/main.214a61e5.chunk.css",
+    "main.js": "/speling-be/static/js/main.0682debc.chunk.js",
+    "main.js.map": "/speling-be/static/js/main.0682debc.chunk.js.map",
+    "runtime-main.js": "/speling-be/static/js/runtime-main.f2e9e90c.js",
+    "runtime-main.js.map": "/speling-be/static/js/runtime-main.f2e9e90c.js.map",
+    "static/js/2.4cd0603e.chunk.js": "/speling-be/static/js/2.4cd0603e.chunk.js",
+    "static/js/2.4cd0603e.chunk.js.map": "/speling-be/static/js/2.4cd0603e.chunk.js.map",
+    "static/js/3.978ce473.chunk.js": "/speling-be/static/js/3.978ce473.chunk.js",
+    "static/js/3.978ce473.chunk.js.map": "/speling-be/static/js/3.978ce473.chunk.js.map",
+    "index.html": "/speling-be/index.html",
+    "static/css/main.214a61e5.chunk.css.map": "/speling-be/static/css/main.214a61e5.chunk.css.map",
+    "static/js/2.4cd0603e.chunk.js.LICENSE.txt": "/speling-be/static/js/2.4cd0603e.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.f2e9e90c.js",
+    "static/js/2.4cd0603e.chunk.js",
+    "static/css/main.214a61e5.chunk.css",
+    "static/js/main.0682debc.chunk.js"
+  ]
+}
