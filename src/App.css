@@ -39,6 +39,11 @@
   justify-content: flex-end;
 }
 
+.status {
+  font-size: 1rem;
+  margin-top: 2rem;
+}
+
 .spell > div:last-child {
   align-items: flex-end;
   background-color: navy;

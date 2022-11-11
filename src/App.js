@@ -1,5 +1,6 @@
 import React from 'react';
 import uniq from  'lodash/uniq';
+import difference from 'lodash/difference';
 import './App.css';
 import words from './1g-words';
 
@@ -10,11 +11,13 @@ const initialState = {
   choices: [],
   ans: '',
   high: null,
+  spelled: [],
 };
 
-const getWord = () => {
-  const idx = Math.floor(Math.random() * words.length);
-  return words[idx];
+const getWord = (spelled = []) => {
+  const unspelled = difference(words, spelled);
+  const idx = Math.floor(Math.random() * unspelled.length);
+  return unspelled[idx];
 }
 const AZ = 'abcdefghijklmnopqrstuvqxyz'.split('');
 
@@ -28,7 +31,10 @@ const scoreBoard = (score, high) => (
 const start = (state, start) => (
   <div className="app go">
     {scoreBoard(state.score, state.high)}
-    <div>Get ready to spell!</div>
+    <div>
+      Get ready to spell!
+      <div className="status">{difference(words, state.spelled).length} of {words.length} words left to solve</div>
+    </div>
     <div><button className="go" onClick={start}>Go</button></div>
   </div>
 );
@@ -83,9 +89,18 @@ class App extends React.Component {
     if (high === null) {
       window.localStorage.setItem('speling-be', 0);
     }
+
+    let spelled = window.localStorage?.getItem('spelled');
+    try {
+      spelled = JSON.parse(spelled).map(x => x);
+    } catch(e) {
+      spelled = [];
+    }
+
     this.setState(prevState => ({
       ...prevState,
       high,
+      spelled,
     }));
   }
 
@@ -117,11 +132,14 @@ class App extends React.Component {
           prevState => {
             const score = prevState.score + 1;
             const high = score > prevState.high ? score : prevState.high;
+            const spelled = [...prevState.spelled, prevState.word];
             window.localStorage.setItem('speling-be', high);
+            window.localStorage.setItem('spelled', JSON.stringify(spelled));
             return {
               ...prevState,
               score,
               high,
+              spelled,
             };
           },
           () => this.start());
@@ -146,7 +164,8 @@ class App extends React.Component {
     this.setState(prevState => ({
       ...initialState,
       score: 0,
-      high: prevState.high
+      high: prevState.high,
+      spelled: prevState.spelled,
     }));
   }
 
@@ -154,7 +173,7 @@ class App extends React.Component {
     this.setState(prevState => ({
       ...prevState,
       step: 1,
-      word: getWord(),
+      word: getWord(prevState.spelled),
       ans: '',
       countdown: 3
     }));
@@ -164,6 +183,7 @@ class App extends React.Component {
   }
 
   render() {
+    console.log(this.state.spelled);
     switch(this.state.step) {
       case 0: return start(this.state, this.start.bind(this));
       case 1: return read(this.state);
