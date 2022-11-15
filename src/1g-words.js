@@ -1,4 +1,4 @@
-const words = `
+const all_words = `
 the,like,has,came,all,been,
 can,go,put,gave,down,because,
 to,look,into,make,food,before,
@@ -19,6 +19,12 @@ of,if,will,over,children,very,
 up,run,with,can’t,father,where,
 for,tell,want,don't,mother,who,
 he,us,was,I'm,sister,why`;
+
+// TODO: record the rest...
+
+const words = `
+all,am,because,been,before,came,can,down,fast,food,friend,gave,go,good,has,
+into,like,look,make,put,the,time,to,you`;
 
 const a = words.split(',').map(w => w.trim());
 export default a;

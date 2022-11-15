@@ -3,12 +3,12 @@ import uniq from  'lodash/uniq';
 import difference from 'lodash/difference';
 import './App.css';
 import words from './1g-words';
-
 const AZ = 'abcdefghijklmnopqrstuvwxyz'.split('');
 
 const STORAGE_KEYS = {
   high: 'speling-be',
   spelled: 'spelled',
+  spoken: 'spoken',
 };
 
 const INITIAL_STATE = {
@@ -18,21 +18,27 @@ const INITIAL_STATE = {
   choices: [],
   ans: '',
   high: 0,
+  mode: STORAGE_KEYS.spelled,
   spelled: [],
+  spoken: [],
 };
 
 const reset = () => {
   if (window.confirm("Reset words and high score?")) {
     window.localStorage.setItem(STORAGE_KEYS.high, 0);
     window.localStorage.setItem(STORAGE_KEYS.spelled, '[]');
+    window.localStorage.setItem(STORAGE_KEYS.spoken, '[]');
     window.location.reload();
   }
 };
 
-const getWord = (spelled = []) => {
-  const unspelled = difference(words, spelled);
-  const idx = Math.floor(Math.random() * unspelled.length);
-  return unspelled[idx];
+const getWord = (completed = []) => {
+  const remainingWords = difference(words, completed);
+  if (remainingWords.length === 0) {
+    return '';
+  }
+  const idx = Math.floor(Math.random() * remainingWords.length);
+  return remainingWords[idx];
 }
 
 const scoreBoard = (score, high) => (
@@ -42,16 +48,27 @@ const scoreBoard = (score, high) => (
   </div>
 );
 
+const playButton = (ref) => (
+  <button className="play" onClick={() => {
+    ref.current.currentTime = 0;
+    ref.current.play();
+  }}> &#128266; </button>
+);
+
 const getViews = (state) => ({
   start: (start) => {
-    const { score, high, spelled } = state;
+    const { score, high, spelled, spoken } = state;
     return (
       <div className="app go">
         {scoreBoard(score, high)}
         <div>
           <div>Get ready to spell!</div>
+          <div className="status">There are {words.length} words</div>
           <div className="status">
-            {difference(words, spelled).length} of {words.length} words left to solve
+            {difference(words, spelled).length} left to read & spell
+          </div>
+          <div className="status">
+            {difference(words, spoken).length} left to hear & spell
           </div>
           <button className="reset" onClick={() => reset()}>Reset</button>
         </div>
@@ -69,18 +86,22 @@ const getViews = (state) => ({
       </div>
     );
   },
-  spell: (print, remove, giveUp) => {
-    const { score, high, choices, ans } = state;
+  spell: (audioRef, print, remove, giveUp) => {
+    const { word, mode, score, high, choices, ans } = state;
     return (
       <div className="app spell">
+        <audio ref={audioRef} src={`${process.env.PUBLIC_URL}/audio/${word}.m4a`} autoPlay={mode === STORAGE_KEYS.spoken} />
         {scoreBoard(score, high)}
-        <div>&nbsp;{ans}&nbsp;</div>
-        <div>
+        <div>&nbsp;{ans || playButton(audioRef)}&nbsp;</div>
+        <div className="keyboard">
           {choices.sort().map(letter => (
             <button key={letter} onClick={() => print(letter)}>{letter}</button>
           ))}
-          <button className="remove" onClick={remove}> &lt; </button>
-          <button className="give-up" onClick={giveUp}> ? </button>
+          <button className="remove" onClick={remove}> &larr; </button>
+          {playButton(audioRef)}
+          <button className="give-up" onClick={() => {
+            if (window.confirm("Give up?")) { giveUp(); }
+          }}> &#128534; </button>
         </div>
       </div>
     );
@@ -94,13 +115,25 @@ const getViews = (state) => ({
         <div>Yes!!!</div>
       </div>
     )
-  }
+  },
+  done: () => {
+    const { score, high } = state;
+    return (
+      <div className="app winner">
+        {scoreBoard(score, high)}
+        <div>&#129321;</div>
+        <div>All done!</div>
+        <button className="reset" onClick={() => reset()}>Play again</button>
+      </div>
+    );
+  },
 });
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = INITIAL_STATE;
+    this.audioRef = React.createRef();
   }
 
   update(newState, cb = () => {}) {
@@ -123,7 +156,18 @@ class App extends React.Component {
       spelled = [];
     }
 
-    this.update({ high, spelled });
+    let spoken = window.localStorage?.getItem(STORAGE_KEYS.spoken);
+    try {
+      spoken = JSON.parse(spelled).map(x => x);
+    } catch(e) {
+      spoken = [];
+    }
+
+    const step = difference(words, uniq([...spelled, ...spoken])).length === 0
+      ? 4 // winner
+      : INITIAL_STATE.step;
+
+    this.update({ step, high, spelled, spoken });
   }
 
   spell = () => {
@@ -141,18 +185,25 @@ class App extends React.Component {
   }
 
   print = (char) => {
-    let { ans, word, score, high, spelled } = this.state;
+    let { ans, word, score, high, mode, spelled, spoken } = this.state;
     const guess = ans.concat(char);
     const step = guess === word ? 3 : 2;
 
     if (step === 3) {
       score = score + 1;
       high = score > high ? score : high;
-      spelled = [...spelled, word];
       window.localStorage.setItem(STORAGE_KEYS.high, high);
-      window.localStorage.setItem(STORAGE_KEYS.spelled, JSON.stringify(spelled));
+
+      if (mode === STORAGE_KEYS.spelled) {
+        spelled = [...spelled, word];
+        window.localStorage.setItem(STORAGE_KEYS.spelled, JSON.stringify(spelled));
+      } else {
+        spoken = [...spoken, word];
+        window.localStorage.setItem(STORAGE_KEYS.spoken, JSON.stringify(spoken));
+      }
+
       const update = () => this.update(
-        { score, high, spelled },
+        { score, high, spelled, spoken },
         () => this.start()
       );
       setTimeout(update, 2000);
@@ -172,25 +223,37 @@ class App extends React.Component {
   }
 
   start = () => {
-    const { spelled } = this.state;
-    this.update({
-      step: 1,
-      word: getWord(spelled),
+    const { spelled, spoken } = this.state;
+
+    const spell = getWord(spelled);
+    const speak = getWord(spoken);
+    const step = spell ? 1 : speak ? 2 : 4;
+    const newState = {
+      step,
+      mode: spell ? STORAGE_KEYS.spelled : STORAGE_KEYS.spoken,
+      word: spell || speak,
       ans: '',
       countdown: 3
-    });
-    setTimeout(() => this.update({ countdown: 2 }), 1000);
-    setTimeout(() => this.update({ countdown: 1 }), 2000);
-    setTimeout(() => this.spell(), 3000);
+    }
+
+    const cb = spell
+        ? () => {
+          setTimeout(() => this.update({ countdown: 2 }), 1000);
+          setTimeout(() => this.update({ countdown: 1 }), 2000);
+          setTimeout(() => this.spell(), 3000);
+        }
+        : () => this.spell();
+    this.update(newState, step < 4 ? cb : undefined);
   }
 
   render() {
-    const { start, read, spell, yes } = getViews(this.state);
+    const { start, read, spell, yes, done } = getViews(this.state);
     switch(this.state.step) {
       case 0: return start(this.start);
       case 1: return read();
-      case 2: return spell(this.print, this.remove, this.giveUp);
+      case 2: return spell(this.audioRef, this.print, this.remove, this.giveUp);
       case 3: return yes();
+      case 4: return done();
     }
   }
 }

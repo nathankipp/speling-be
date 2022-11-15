@@ -11,6 +11,11 @@
   width: 100%;
 }
 
+.winner {
+  color: green;
+  font-size: 7rem;
+}
+
 .app > div:last-child {
   height: 50%;
 }
@@ -65,14 +70,19 @@ button {
   background-color: navy;
   border: 0px;
   font-size: 2rem;
+}
+
+.keyboard button {
   width: 20%;
   height: 25%;
 }
 
+button.play {
+  background-color: unset;
+}
+
 button.reset,
 button.go {
-  height: auto;
-  width: auto;
   padding: 2rem;
 }
 
