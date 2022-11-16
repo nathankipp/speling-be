@@ -11,12 +11,18 @@
   width: 100%;
 }
 
+.games button {
+  height: 50%;
+}
+
 .winner {
   color: green;
   font-size: 7rem;
 }
 
-.app > div:last-child {
+.app.read > div:last-child,
+.app.spell > div:last-child,
+.app.yes > div:last-child {
   height: 50%;
 }
 
@@ -29,16 +35,21 @@
   color: white;
   font-size: 2rem;
   font-weight: 600;
-  padding: .5rem 1rem;
+  padding: .5rem 0;
+}
+
+.progress {
+  height: .5rem;
+  background-color: navy;
 }
 
 .go, .read, .spell, .yes {
   font-size: 3rem;
 }
 
-.go div:last-child,
-.read div:last-child,
-.yes div:last-child {
+.go > div:last-child,
+.read > div:last-child,
+.yes > div:last-child {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -82,13 +93,15 @@ button.play {
 }
 
 button.reset,
+button.quit,
 button.go {
   padding: 2rem;
 }
 
-button.reset {
-  font-size: 1rem;
-  padding: .5rem;
+button.reset,
+button.quit {
+  margin: 0 1rem;
+  padding: 1rem;
 }
 
 button.remove, button.give-up {
