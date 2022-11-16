@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/speling-be/static/css/main.6580dda5.chunk.css",
-    "main.js": "/speling-be/static/js/main.03794e94.chunk.js",
-    "main.js.map": "/speling-be/static/js/main.03794e94.chunk.js.map",
+    "main.css": "/speling-be/static/css/main.d25f020e.chunk.css",
+    "main.js": "/speling-be/static/js/main.1c149d22.chunk.js",
+    "main.js.map": "/speling-be/static/js/main.1c149d22.chunk.js.map",
     "runtime-main.js": "/speling-be/static/js/runtime-main.e6b9fdba.js",
     "runtime-main.js.map": "/speling-be/static/js/runtime-main.e6b9fdba.js.map",
-    "static/js/2.539fded1.chunk.js": "/speling-be/static/js/2.539fded1.chunk.js",
-    "static/js/2.539fded1.chunk.js.map": "/speling-be/static/js/2.539fded1.chunk.js.map",
+    "static/js/2.5e513078.chunk.js": "/speling-be/static/js/2.5e513078.chunk.js",
+    "static/js/2.5e513078.chunk.js.map": "/speling-be/static/js/2.5e513078.chunk.js.map",
     "static/js/3.1cdff577.chunk.js": "/speling-be/static/js/3.1cdff577.chunk.js",
     "static/js/3.1cdff577.chunk.js.map": "/speling-be/static/js/3.1cdff577.chunk.js.map",
     "index.html": "/speling-be/index.html",
-    "static/css/main.6580dda5.chunk.css.map": "/speling-be/static/css/main.6580dda5.chunk.css.map",
-    "static/js/2.539fded1.chunk.js.LICENSE.txt": "/speling-be/static/js/2.539fded1.chunk.js.LICENSE.txt"
+    "static/css/main.d25f020e.chunk.css.map": "/speling-be/static/css/main.d25f020e.chunk.css.map",
+    "static/js/2.5e513078.chunk.js.LICENSE.txt": "/speling-be/static/js/2.5e513078.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.e6b9fdba.js",
-    "static/js/2.539fded1.chunk.js",
-    "static/css/main.6580dda5.chunk.css",
-    "static/js/main.03794e94.chunk.js"
+    "static/js/2.5e513078.chunk.js",
+    "static/css/main.d25f020e.chunk.css",
+    "static/js/main.1c149d22.chunk.js"
   ]
 }
