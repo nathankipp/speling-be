@@ -198,7 +198,7 @@ class Spelling extends React.Component {
 
       const update = () => this.update(
         { score, high, spelled, spoken },
-        () => this.start()
+        () => this.start(false)
       );
       setTimeout(update, 2000);
     }
@@ -212,11 +212,11 @@ class Spelling extends React.Component {
   }
 
   giveUp = () => {
-    const { high, spelled } = this.state;
-    this.update({ ...INITIAL_STATE, score: 0, high, spelled });
+    const { score, high, spelled } = this.state;
+    this.update({ ...INITIAL_STATE, score, high, spelled });
   }
 
-  start = () => {
+  start = (resetScore = true) => {
     const { spelled, spoken } = this.state;
 
     const spell = getWord(spelled);
@@ -228,6 +228,9 @@ class Spelling extends React.Component {
       word: spell || speak,
       ans: '',
       countdown: 3
+    }
+    if (resetScore) {
+      newState.score = 0;
     }
 
     const cb = spell

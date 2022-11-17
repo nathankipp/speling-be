@@ -134,7 +134,7 @@ class Mathing extends React.Component {
 
       const update = () => this.update(
         { score, high, ans: '' },
-        () => this.start()
+        () => this.start(false)
       );
       setTimeout(update, 2000);
     }
@@ -148,11 +148,11 @@ class Mathing extends React.Component {
   }
 
   giveUp = () => {
-    const { high, intervalId } = this.state;
-    this.update({ ...INITIAL_STATE, score: 0, high, intervalId });
+    const { score, high, intervalId } = this.state;
+    this.update({ ...INITIAL_STATE, score, high, intervalId });
   }
 
-  start = () => {
+  start = (resetScore = true) => {
     const a = getNum();
     const b = getNum();
 
@@ -170,6 +170,9 @@ class Mathing extends React.Component {
       countdown: 10,
       tick: 10,
       intervalId,
+    }
+    if (resetScore) {
+      newState.score = 0;
     }
 
     this.update(newState);
