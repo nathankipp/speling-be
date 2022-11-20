@@ -1,30 +1,22 @@
-const all_words = `
-the,like,has,came,all,been,
-can,go,put,gave,down,because,
-to,look,into,make,food,before,
-am,you,fast,time,good,friend,
-have,here,back,something,house,one,
-it,see,jump,give,how,little,
-at,my,just,come,new,could,
-do,on,off,what,night,too,
-and,going,pick,walk,now,two,
-big,they,stop,boy,or,does,
-in,but,that,eat,our,are,
-not,did,them,play,out,car,
-said,fun,then,rain,saw,girl,
-from,got,this,road,says,her,
-is,had,went,teach,school,there,
-get,him,when,old,brother,were,
-of,if,will,over,children,very,
-up,run,with,can’t,father,where,
-for,tell,want,don't,mother,who,
-he,us,was,I'm,sister,why`;
+const WORDS = `
+all,am,and,are,at,
+back,because,been,before,big,boy,brother,but,
+came,can,can’t,car,children,come,could,
+did,do,does,don't,down,
+eat,fast,father,food,for,friend,from,fun,
+gave,get,girl,give,go,going,good,got,
+had,has,have,he,her,here,him,house,how,
+I'm,if,in,into,is,it,jump,just,like,little,look,
+make,mother,my,new,night,not,now,
+of,off,old,on,one,or,our,out,over,
+pick,play,put,rain,road,run,
+said,saw,says,school,see,sister,something,stop,
+teach,tell,that,the,them,then,
+there,they,this,time,to,too,two,
+up,us,very,
+walk,want,was,went,were,what,when,
+where,who,why,will,with,
+you`;
 
-// TODO: record the rest...
-
-const words = `
-all,am,because,been,before,came,can,down,fast,food,friend,gave,go,good,has,
-into,like,look,make,put,the,time,to,you`;
-
-const a = words.split(',').map(w => w.trim());
-export default a;
+const words = WORDS.split(',').map(word => word.trim());
+export default words;

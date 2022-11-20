@@ -82,9 +82,10 @@ const getViews = (state, props) => ({
   },
   spell: (audioRef, print, remove, giveUp) => {
     const { word, mode, score, high, choices, ans } = state;
+    const fileName = word.toLowerCase().replace(/\W/g, '');
     return (
       <div className="app spell">
-        <audio ref={audioRef} src={`${process.env.PUBLIC_URL}/audio/${word}.m4a`} autoPlay={mode === STORAGE_KEYS.spoken} />
+        <audio ref={audioRef} src={`${process.env.PUBLIC_URL}/audio/${fileName}.m4a`} autoPlay={mode === STORAGE_KEYS.spoken} />
         {scoreBoard(score, high)}
         <div>&nbsp;{ans || playButton(audioRef)}&nbsp;</div>
         <div className="keyboard">
