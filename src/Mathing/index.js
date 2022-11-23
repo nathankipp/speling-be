@@ -7,6 +7,7 @@ const STORAGE_KEYS = {
 const INITIAL_STATE = {
   step: 0,
   score: 0,
+  operation: '+',
   equation: '',
   solution: '',
   countdown: 10,
@@ -16,7 +17,9 @@ const INITIAL_STATE = {
   high: 0,
 };
 
-const getNum = (max = 9) => {
+const MAX = 9;
+
+const getNum = (max = MAX) => {
   return Math.floor(Math.random() * (max + 1));
 }
 
@@ -153,8 +156,10 @@ class Mathing extends React.Component {
   }
 
   start = (resetScore = true) => {
+    const bool = !!getNum(1);
+    const op = bool ? '+' : '-';
     const a = getNum();
-    const b = getNum();
+    const b = getNum(bool ? MAX : a);
 
     const tick = () => this.setState(prevState => ({
       ...prevState,
@@ -163,10 +168,11 @@ class Mathing extends React.Component {
     clearInterval(this.state.intervalId);
     const intervalId = setInterval(tick, 1000 - (20 * this.state.score));
 
+    const solution = bool ? `${(a + b)}` : `${(a - b)}`;
     const newState = {
       step: 1,
-      equation: `${a} + ${b} =`,
-      solution: `${(a + b)}`,
+      equation: `${a} ${op} ${b} =`,
+      solution,
       countdown: 10,
       tick: 10,
       intervalId,
