@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/speling-be/static/css/main.d25f020e.chunk.css",
-    "main.js": "/speling-be/static/js/main.8f7748d5.chunk.js",
-    "main.js.map": "/speling-be/static/js/main.8f7748d5.chunk.js.map",
+    "main.js": "/speling-be/static/js/main.dff7dbad.chunk.js",
+    "main.js.map": "/speling-be/static/js/main.dff7dbad.chunk.js.map",
     "runtime-main.js": "/speling-be/static/js/runtime-main.e6b9fdba.js",
     "runtime-main.js.map": "/speling-be/static/js/runtime-main.e6b9fdba.js.map",
     "static/js/2.5e513078.chunk.js": "/speling-be/static/js/2.5e513078.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.e6b9fdba.js",
     "static/js/2.5e513078.chunk.js",
     "static/css/main.d25f020e.chunk.css",
-    "static/js/main.8f7748d5.chunk.js"
+    "static/js/main.dff7dbad.chunk.js"
   ]
 }
